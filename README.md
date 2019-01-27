@@ -9,4 +9,4 @@
 ## Tips
 - Support EdXposed v0.2.9.6 and later.
 - This app need root access, make sure Magisk Manager is alive before launching it.
-- Mode switching takes effect on reboot.
+- Mode switching takes effect on target process restarted.
