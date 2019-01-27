@@ -6,7 +6,7 @@
     <string name="white_list_mode_title">白名单模式</string>
     <string name="title_white_list">白名单</string>
     <string name="title_black_list">黑名单</string>
-    <string name="add_package_failed">添加失败，请检查 Root 权限</string>
+    <string name="add_package_failed">修改失败，请检查 Root 权限</string>
     <string name="mode_change_failed">切换模式失败，请检查 Root 权限</string>
     <string name="menu_title_compile_reset">清除已编译的文件</string>
     <string name="menu_title_compile_speed">强制以 Speed 模式编译</string>

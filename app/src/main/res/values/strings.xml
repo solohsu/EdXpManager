@@ -10,7 +10,7 @@
     <string name="white_list_mode_title">White List mode</string>
     <string name="title_white_list">White List</string>
     <string name="title_black_list">Black List</string>
-    <string name="add_package_failed">Failed to add package, check your root access.</string>
+    <string name="add_package_failed">Failed to edit package, check your root access.</string>
     <string name="mode_change_failed">Failed to change mode, check your root access.</string>
     <string name="menu_title_compile_reset">Reset compiled code</string>
     <string name="menu_title_compile_speed">Force compile in Speed mode</string>

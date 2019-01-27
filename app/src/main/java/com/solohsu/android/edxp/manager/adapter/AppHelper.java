@@ -13,6 +13,7 @@ import android.view.View;
 import com.solohsu.android.edxp.manager.R;
 import com.topjohnwu.superuser.Shell;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class AppHelper {
@@ -22,6 +23,8 @@ public class AppHelper {
     private static final String BLACK_LIST_PATH = BASE_PATH + "blacklist/";
     private static final String WHITE_LIST_MODE = BASE_PATH + "usewhitelist";
     private static final String FORCE_GLOBAL_MODE = BASE_PATH + "forceglobal";
+
+    private static final List<String> FORCE_WHITE_LIST = Arrays.asList("de.robv.android.xposed.installer");
 
     public static boolean makeSurePath() {
         return checkRetCode(Shell.su("mkdir " + WHITE_LIST_PATH,
@@ -34,6 +37,11 @@ public class AppHelper {
     }
 
     public static boolean setWhiteListMode(boolean isWhiteListMode) {
+        if (isWhiteListMode) {
+            for (String pn : FORCE_WHITE_LIST) {
+                addWhiteList(pn);
+            }
+        }
         return isWhiteListMode ?
                 checkRetCode(Shell.su("touch " + WHITE_LIST_MODE).exec().getCode()) :
                 checkRetCode(Shell.su("rm " + WHITE_LIST_MODE).exec().getCode());
@@ -44,10 +52,17 @@ public class AppHelper {
     }
 
     public static boolean addBlackList(String packageName) {
+        if (FORCE_WHITE_LIST.contains(packageName)) {
+            removeBlackList(packageName);
+            return false;
+        }
         return checkRetCode(Shell.su(blackListFileName(packageName, true)).exec().getCode());
     }
 
     public static boolean removeWhiteList(String packageName) {
+        if (FORCE_WHITE_LIST.contains(packageName)) {
+            return false;
+        }
         return checkRetCode(Shell.su(whiteListFileName(packageName, false)).exec().getCode());
     }
 
