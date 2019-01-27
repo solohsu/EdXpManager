@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_title_about">关于</string>
+    <string name="nav_title_apps">应用管理</string>
+    <string name="nav_title_settings">设置</string>
+    <string name="white_list_mode_title">白名单模式</string>
+    <string name="title_white_list">白名单</string>
+    <string name="title_black_list">黑名单</string>
+    <string name="add_package_failed">添加失败，请检查 Root 权限</string>
+    <string name="mode_change_failed">切换模式失败，请检查 Root 权限</string>
+    <string name="menu_title_compile_reset">清除已编译的文件</string>
+    <string name="menu_title_compile_speed">强制以 Speed 模式编译</string>
+    <string name="compile_reset_msg">清除中…</string>
+    <string name="compile_speed_msg">编译中…</string>
+    <string name="app_source_code_title">App 源代码</string>
+    <string name="edxp_source_code_title">EdXposed 源代码</string>
+    <string name="open_link_failed_toast">无法找到可以打开链接的应用</string>
+    <string name="pref_title_force_global">强制全局模式</string>
+    <string name="pref_force_global_summary">启用后，忽略黑名单和白名单设置，仅在系统启动时加载一次模块列表</string>
+</resources>

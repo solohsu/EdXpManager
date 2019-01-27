@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="NoAnimationPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupEnterTransition">@null</item>
+        <item name="android:popupExitTransition">@null</item>
+    </style>
+</resources>
