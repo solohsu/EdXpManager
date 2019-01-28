@@ -104,6 +104,7 @@ public class AppFragment extends Fragment implements AppAdapter.Callback {
     }
 
     private void updateUi(boolean isWhiteListMode) {
+        changeTitle(isWhiteListMode());
         mAppAdapter.updateList(isWhiteListMode);
     }
 
