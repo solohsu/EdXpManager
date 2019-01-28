@@ -61,6 +61,12 @@ public class AppFragment extends Fragment implements AppAdapter.Callback {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeTitle(isWhiteListMode());
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,7 +104,6 @@ public class AppFragment extends Fragment implements AppAdapter.Callback {
     }
 
     private void updateUi(boolean isWhiteListMode) {
-        changeTitle(isWhiteListMode);
         mAppAdapter.updateList(isWhiteListMode);
     }
 

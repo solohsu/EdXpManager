@@ -18,8 +18,8 @@ public class SettingFragment extends PreferenceFragmentCompat {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume() {
+        super.onResume();
         requireActivity().setTitle(R.string.nav_title_settings);
     }
 

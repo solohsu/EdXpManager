@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.View;
 
 import com.solohsu.android.edxp.manager.R;
@@ -17,6 +18,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AppHelper {
+
+    public static final String TAG = "AppHelper";
 
     private static final String BASE_PATH = "/data/misc/riru/modules/edxposed/";
     private static final String WHITE_LIST_PATH = BASE_PATH + "whitelist/";
@@ -32,8 +35,13 @@ public class AppHelper {
     }
 
     public static boolean isWhiteListMode() {
-        return Shell.su("test -e " + WHITE_LIST_MODE + "; echo $?").exec()
-                .getOut().get(0).equals("0");
+        try {
+            return Shell.su("test -e " + WHITE_LIST_MODE + "; echo $?").exec()
+                    .getOut().get(0).equals("0");
+        } catch (Throwable throwable) {
+            Log.e(TAG, throwable.getMessage());
+            return false;
+        }
     }
 
     public static boolean setWhiteListMode(boolean isWhiteListMode) {

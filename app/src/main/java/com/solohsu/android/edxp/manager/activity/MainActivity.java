@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity
 
     private NavigationView navigationView;
     private int currentDrawerItemId = -1;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,11 +104,15 @@ public class MainActivity extends AppCompatActivity
 
     private void displayFragment(@NonNull Fragment navFragment) {
         supportInvalidateOptionsMenu();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.content_frame, navFragment)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+        FragmentTransaction transaction =
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.content_frame, navFragment);
+        if (currentFragment != null) {
+            transaction.addToBackStack(null);
+        }
+        transaction.commitAllowingStateLoss();
+        currentFragment = navFragment;
     }
 }

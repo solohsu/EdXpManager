@@ -26,6 +26,11 @@ public class AboutFragment extends Fragment {
         return new AboutFragment();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        requireActivity().setTitle(R.string.nav_title_about);
+    }
 
     @Nullable
     @Override
@@ -36,7 +41,6 @@ public class AboutFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        requireActivity().setTitle(R.string.nav_title_about);
         view.findViewById(R.id.app_source_code).setOnClickListener(v ->
                 Utils.openLink(requireContext(), APP_SOURCE_CODE_URL));
         view.findViewById(R.id.edxp_source_code).setOnClickListener(v ->
