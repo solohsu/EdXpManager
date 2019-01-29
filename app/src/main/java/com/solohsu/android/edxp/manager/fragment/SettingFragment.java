@@ -5,6 +5,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.solohsu.android.edxp.manager.R;
 
+import static com.solohsu.android.edxp.manager.adapter.AppHelper.setDynamicModules;
 import static com.solohsu.android.edxp.manager.adapter.AppHelper.setForceGlobalMode;
 
 public class SettingFragment extends PreferenceFragmentCompat {
@@ -28,6 +29,8 @@ public class SettingFragment extends PreferenceFragmentCompat {
         addPreferencesFromResource(R.xml.pref_settings);
         findPreference("force_global_mode").setOnPreferenceChangeListener(
                 (preference, newValue) -> setForceGlobalMode((Boolean) newValue));
+        findPreference("is_dynamic_modules").setOnPreferenceChangeListener(
+                (preference, newValue) -> setDynamicModules((Boolean) newValue));
     }
 
 }

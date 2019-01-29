@@ -27,6 +27,7 @@ public class AppHelper {
     private static final String COMPAT_LIST_PATH = BASE_PATH + "compatlist/";
     private static final String WHITE_LIST_MODE = BASE_PATH + "usewhitelist";
     private static final String FORCE_GLOBAL_MODE = BASE_PATH + "forceglobal";
+    private static final String DYNAMIC_MODULES = BASE_PATH + "dynamicmodules";
 
     private static final List<String> FORCE_WHITE_LIST = Arrays.asList("de.robv.android.xposed.installer");
 
@@ -115,6 +116,10 @@ public class AppHelper {
 
     public static boolean setForceGlobalMode(boolean isForceGlobal) {
         return checkRetCode(Shell.su((isForceGlobal ? "touch " : "rm ") + FORCE_GLOBAL_MODE).exec().getCode());
+    }
+
+    public static boolean setDynamicModules(boolean isDynamicModules) {
+        return checkRetCode(Shell.su((isDynamicModules ? "touch " : "rm ") + DYNAMIC_MODULES).exec().getCode());
     }
 
     @SuppressLint("RestrictedApi")
