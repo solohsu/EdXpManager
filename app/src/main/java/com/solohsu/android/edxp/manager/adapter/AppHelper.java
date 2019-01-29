@@ -24,14 +24,17 @@ public class AppHelper {
     private static final String BASE_PATH = "/data/misc/riru/modules/edxposed/";
     private static final String WHITE_LIST_PATH = BASE_PATH + "whitelist/";
     private static final String BLACK_LIST_PATH = BASE_PATH + "blacklist/";
+    private static final String COMPAT_LIST_PATH = BASE_PATH + "compatlist/";
     private static final String WHITE_LIST_MODE = BASE_PATH + "usewhitelist";
     private static final String FORCE_GLOBAL_MODE = BASE_PATH + "forceglobal";
 
     private static final List<String> FORCE_WHITE_LIST = Arrays.asList("de.robv.android.xposed.installer");
 
     public static boolean makeSurePath() {
-        return checkRetCode(Shell.su("mkdir " + WHITE_LIST_PATH,
-                "mkdir " + BLACK_LIST_PATH).exec().getCode());
+        return checkRetCode(Shell.su(
+                "mkdir " + WHITE_LIST_PATH,
+                "mkdir " + BLACK_LIST_PATH,
+                "mkdir " + COMPAT_LIST_PATH).exec().getCode());
     }
 
     public static boolean isWhiteListMode() {
@@ -94,6 +97,10 @@ public class AppHelper {
         return (isAdd ? "touch " : "rm ") + BLACK_LIST_PATH + packageName;
     }
 
+    private static String compatListFileName(String packageName, boolean isAdd) {
+        return (isAdd ? "touch " : "rm ") + COMPAT_LIST_PATH + packageName;
+    }
+
     private static boolean checkRetCode(int retCode) {
         return retCode != com.topjohnwu.superuser.Shell.Result.JOB_NOT_EXECUTED;
     }
@@ -131,5 +138,17 @@ public class AppHelper {
         MenuPopupHelper menuHelper = new MenuPopupHelper(context, (MenuBuilder) appMenu.getMenu(), anchor);
         menuHelper.setForceShowIcon(true);
         menuHelper.show();
+    }
+
+    public static List<String> getCompatList() {
+        return Shell.su("ls " + COMPAT_LIST_PATH).exec().getOut();
+    }
+
+    public static boolean addCompatList(String packageName) {
+        return checkRetCode(Shell.su(compatListFileName(packageName, true)).exec().getCode());
+    }
+
+    public static boolean removeCompatList(String packageName) {
+        return checkRetCode(Shell.su(compatListFileName(packageName, false)).exec().getCode());
     }
 }

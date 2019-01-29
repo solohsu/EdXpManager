@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
 
     <group
         android:id="@+id/main_group"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_apps"
-            android:icon="@drawable/ic_menu_apps"
-            android:title="@string/nav_title_apps" />
+            android:id="@+id/nav_black_list"
+            android:icon="@drawable/ic_format_list_bulleted"
+            android:title="@string/nav_title_black_list"/>
+        <item
+            android:id="@+id/nav_compat_list"
+            android:icon="@drawable/ic_local_hospital"
+            android:title="@string/nav_title_compat_list"/>
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_settings"
             android:title="@string/nav_title_settings"
-            android:visible="true" />
+            android:visible="true"/>
     </group>
 
     <group
@@ -24,7 +28,7 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_about"
             android:title="@string/nav_title_about"
-            android:visible="true" />
+            android:visible="true"/>
     </group>
 
 </menu>

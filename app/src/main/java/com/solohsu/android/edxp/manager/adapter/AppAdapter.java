@@ -7,17 +7,16 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.solohsu.android.edxp.manager.R;
-import com.solohsu.android.edxp.manager.util.ToastUtils;
 import com.solohsu.android.edxp.manager.util.Utils;
 
 import java.util.ArrayList;
@@ -26,41 +25,26 @@ import java.util.List;
 
 public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
 
-    private static final String TAG = "AppAdapter";
+    protected final Context context;
     private final ApplicationInfo.DisplayNameComparator displayNameComparator;
-    private final Context context;
     private List<ApplicationInfo> fullList, showList;
-    private List<String> whiteList;
-    private List<String> blackList;
     private List<String> checkedList;
     private PackageManager pm;
     private ApplicationFilter filter;
     private Callback callback;
-    private boolean isWhiteListMode;
 
-    public AppAdapter(Context context, boolean isWhiteListMode) {
+    public AppAdapter(Context context) {
         this.context = context;
-        this.isWhiteListMode = isWhiteListMode;
         fullList = showList = Collections.emptyList();
-        whiteList = blackList = Collections.emptyList();
         checkedList = Collections.emptyList();
         filter = new ApplicationFilter();
         pm = context.getPackageManager();
         displayNameComparator = new ApplicationInfo.DisplayNameComparator(pm);
-        AsyncTask.THREAD_POOL_EXECUTOR.execute(this::loadApps);
+        refresh();
     }
 
     public void setCallback(Callback callback) {
         this.callback = callback;
-    }
-
-    public void updateList(boolean isWhiteListMode) {
-        this.isWhiteListMode = isWhiteListMode;
-        checkedList = isWhiteListMode ? whiteList : blackList;
-        sortApps();
-        if (callback != null) {
-            callback.onDataReady();
-        }
     }
 
     @NonNull
@@ -71,17 +55,24 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
     }
 
     private void loadApps() {
-        fullList = pm.getInstalledApplications(0);
+        if (fullList.isEmpty()) {
+            fullList = pm.getInstalledApplications(0);
+        }
         AppHelper.makeSurePath();
-        whiteList = AppHelper.getWhiteList();
-        blackList = AppHelper.getBlackList();
-        Log.d(TAG, "whiteList: " + whiteList);
-        Log.d(TAG, "blackList: " + blackList);
-        checkedList = isWhiteListMode ? this.whiteList : blackList;
+        checkedList = generateCheckedList();
         sortApps();
         if (callback != null) {
             callback.onDataReady();
         }
+    }
+
+    /**
+     * Called during {@link #loadApps()} in non-UI thread.
+     *
+     * @return list of package names which should be checked when shown
+     */
+    protected List<String> generateCheckedList() {
+        return Collections.emptyList();
     }
 
     private void sortApps() {
@@ -108,20 +99,12 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
 
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setChecked(checkedList.contains(info.packageName));
-        holder.checkBox.setOnCheckedChangeListener((v, isChecked) -> {
-            boolean success = isChecked ?
-                    AppHelper.addPackageName(isWhiteListMode, info.packageName) :
-                    AppHelper.removePackageName(isWhiteListMode, info.packageName);
-            if (success) {
-                if (isChecked) checkedList.add(info.packageName);
-                else checkedList.remove(info.packageName);
-            } else {
-                ToastUtils.showShortToast(context, R.string.add_package_failed);
-                v.setChecked(!isChecked);
-            }
-        });
+        holder.checkBox.setOnCheckedChangeListener((v, isChecked) ->
+                onCheckedChange(v, isChecked, info));
         holder.infoLayout.setOnClickListener(v -> {
-            if (callback != null) callback.onItemClick(v, info);
+            if (callback != null) {
+                callback.onItemClick(v, info);
+            }
         });
     }
 
@@ -136,6 +119,16 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
 
     public void refresh() {
         AsyncTask.THREAD_POOL_EXECUTOR.execute(this::loadApps);
+    }
+
+    protected void onCheckedChange(CompoundButton buttonView, boolean isChecked, ApplicationInfo info) {
+        // override this to implements your functions
+    }
+
+    public interface Callback {
+        void onDataReady();
+
+        void onItemClick(View v, ApplicationInfo info);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -183,10 +176,5 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
         protected void publishResults(CharSequence constraint, FilterResults results) {
             notifyDataSetChanged();
         }
-    }
-
-    public interface Callback {
-        void onDataReady();
-        void onItemClick(View v, ApplicationInfo info);
     }
 }

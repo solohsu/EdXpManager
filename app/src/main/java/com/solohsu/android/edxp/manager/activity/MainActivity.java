@@ -15,7 +15,8 @@ import android.view.MenuItem;
 
 import com.solohsu.android.edxp.manager.R;
 import com.solohsu.android.edxp.manager.fragment.AboutFragment;
-import com.solohsu.android.edxp.manager.fragment.AppFragment;
+import com.solohsu.android.edxp.manager.fragment.BlackListFragment;
+import com.solohsu.android.edxp.manager.fragment.CompatListFragment;
 import com.solohsu.android.edxp.manager.fragment.SettingFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigate(R.id.nav_apps);
+        navigate(R.id.nav_black_list);
     }
 
     @Override
@@ -90,8 +91,11 @@ public class MainActivity extends AppCompatActivity
         currentDrawerItemId = itemId;
         navigationView.setCheckedItem(itemId);
         switch (itemId) {
-            case R.id.nav_apps:
-                displayFragment(AppFragment.newInstance());
+            case R.id.nav_black_list:
+                displayFragment(BlackListFragment.newInstance());
+                break;
+            case R.id.nav_compat_list:
+                displayFragment(CompatListFragment.newInstance());
                 break;
             case R.id.nav_settings:
                 displayFragment(SettingFragment.newInstance());
