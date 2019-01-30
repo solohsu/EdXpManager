@@ -55,9 +55,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
     }
 
     private void loadApps() {
-        if (fullList.isEmpty()) {
-            fullList = pm.getInstalledApplications(0);
-        }
+        fullList = pm.getInstalledApplications(0);
         AppHelper.makeSurePath();
         checkedList = generateCheckedList();
         sortApps();
