@@ -1,4 +1,6 @@
-# EdXpManager
+# ~~EdXpManager~~
+
+- This app is deprecated, if you are using EdXposed v0.2.9.8 and later, please use [EdXposed Installer](https://github.com/solohsu/XposedInstaller) instead.
 
 - Switch [EdXposed](https://github.com/solohsu/EdXposed) among 
     - black list mode
